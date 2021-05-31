@@ -3,7 +3,6 @@
 #include "../inc/creature.h"
 
 field_t field;
-std::mutex field_mutex;
 
 void field_fill() {
     Cell cell;
@@ -13,14 +12,14 @@ void field_fill() {
         for (y = 0; y < height; ++y) {
             cell = Cell(mersenne() % MaxCell);
             if (cell == Alive) {
-//                for (i = 0, found = false; i < creatures.size(); ++i) {
-//                    if (!creatures[i].alive()) {
-//                        creatures[i] = Creature(x, y);
-//                        found = true;
-//                        break;
-//                    }
-//                }
-                /*if (!found)*/ creatures.emplace_back(x, y);
+                for (i = 0, found = false; i < creatures.size(); ++i) {
+                    if (!creatures[i].alive()) {
+                        creatures[i] = Creature(x, y);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) creatures.emplace_back(x, y);
             }
             field[x][y] = cell;
         }
